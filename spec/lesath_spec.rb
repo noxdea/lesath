@@ -82,7 +82,7 @@ RSpec.describe Lesath do
       Lesath.write(workbook, path)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("xl/worksheets/sheet1.xml")
-        xml = entry.get_input_stream.read.sub("r='A1'", "r='A1' s='1'")
+        xml = entry.get_input_stream { |input| input.read }.sub("r='A1'", "r='A1' s='1'")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
       expect { Lesath.read(path) }.to raise_error(Lesath::UnsupportedFeature, /style/)
@@ -99,7 +99,7 @@ RSpec.describe Lesath do
       Lesath.write(workbook, path)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("content.xml")
-        xml = entry.get_input_stream.read.sub("office:value='12.5'", "office:value='12.5' office:string-value='lost'")
+        xml = entry.get_input_stream { |input| input.read }.sub("office:value='12.5'", "office:value='12.5' office:string-value='lost'")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
       expect { Lesath.read(path) }.to raise_error(Lesath::UnsupportedFeature, /conflicting/)
@@ -114,13 +114,13 @@ RSpec.describe Lesath do
       Lesath.write(book, path)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("xl/worksheets/sheet1.xml")
-        xml = entry.get_input_stream.read.sub("</is>", "</is><is><t>lost</t></is>")
+        xml = entry.get_input_stream { |input| input.read }.sub("</is>", "</is><is><t>lost</t></is>")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
       expect { Lesath.read(path) }.to raise_error(Lesath::InvalidPackage, /duplicate/)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("xl/worksheets/sheet1.xml")
-        xml = entry.get_input_stream.read.sub("<t>foo</t>", "<t>foo<![CDATA[bar]]>baz</t>")
+        xml = entry.get_input_stream { |input| input.read }.sub("<t>foo</t>", "<t>foo<![CDATA[bar]]>baz</t>")
           .sub("<is><t>lost</t></is>", "")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
@@ -136,7 +136,7 @@ RSpec.describe Lesath do
       Lesath.write(book, path)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("xl/worksheets/sheet1.xml")
-        xml = entry.get_input_stream.read.sub(/<v>cached<\/v>/, "")
+        xml = entry.get_input_stream { |input| input.read }.sub(/<v>cached<\/v>/, "")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
       expect { Lesath.read(path) }.to raise_error(Lesath::UnsupportedFeature, /cached value/)
@@ -150,7 +150,7 @@ RSpec.describe Lesath do
       xlsx = File.join(dir, "book.xlsx")
       Lesath.write(book, xlsx)
       Zip::File.open(xlsx) do |zip|
-        expect(zip.find_entry("xl/worksheets/sheet1.xml").get_input_stream.read).to include("xml:space='preserve'")
+        expect(zip.find_entry("xl/worksheets/sheet1.xml").get_input_stream { |input| input.read }).to include("xml:space='preserve'")
       end
       expect(Lesath.read(xlsx).cell("S", 1, 1).value).to eq(" a  b ")
       expect { Lesath.write(book, File.join(dir, "book.ods")) }
@@ -166,13 +166,13 @@ RSpec.describe Lesath do
       Lesath.write(book, path)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("content.xml")
-        xml = entry.get_input_stream.read.sub("<text:p>foo</text:p>", "<text:p>foo<![CDATA[bar]]>baz</text:p>")
+        xml = entry.get_input_stream { |input| input.read }.sub("<text:p>foo</text:p>", "<text:p>foo<![CDATA[bar]]>baz</text:p>")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
       expect { Lesath.read(path) }.to raise_error(Lesath::UnsupportedFeature, /CDATA/)
       Zip::File.open(path) do |zip|
         entry = zip.find_entry("content.xml")
-        xml = entry.get_input_stream.read.sub("<text:p>foo<![CDATA[bar]]>baz</text:p>", "<text:p> foo </text:p>")
+        xml = entry.get_input_stream { |input| input.read }.sub("<text:p>foo<![CDATA[bar]]>baz</text:p>", "<text:p> foo </text:p>")
           .sub("office:string-value='foo'", "office:string-value=' foo '")
         zip.get_output_stream(entry.name) { |stream| stream.write(xml) }
       end
