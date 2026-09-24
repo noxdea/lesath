@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#020617">
+    <meta name="description" content="Lesath reads and writes a strict, documented subset of XLSX and ODS spreadsheets for Ruby.">
+    <title>Lesath — careful spreadsheet interchange for Ruby</title>
+    <link rel="canonical" href="https://noxdea.github.io/lesath/">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="./" aria-label="Lesath home">Lesath<span class="brand-mark" aria-hidden="true">/</span></a>
+        <nav aria-label="Primary navigation">
+          <a href="https://github.com/noxdea/lesath#readme">Documentation</a>
+          <a href="https://github.com/noxdea/lesath">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero container" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title">Spreadsheet files, with clear boundaries.</h1>
+          <p>Read and write a documented subset of XLSX and ODS in Ruby. Lesath preserves supported cells and rejects features it cannot keep intact.</p>
+          <div class="hero-actions">
+            <a class="button" href="#install">Get started</a>
+            <a class="quiet-link" href="https://github.com/noxdea/lesath#supported-subset-and-limits">See the limits <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <figure class="artifact">
+          <div class="artifact-heading"><span>Workbook exchange</span><span>supported cells</span></div>
+          <table>
+            <caption>Example spreadsheet with text and numeric cells</caption>
+            <thead><tr><th scope="col">Item</th><th scope="col">Amount</th></tr></thead>
+            <tbody>
+              <tr><td>Tea</td><td>12.50</td></tr>
+              <tr><td>Coffee</td><td>8.00</td></tr>
+              <tr><td>Water</td><td>4.25</td></tr>
+            </tbody>
+          </table>
+          <div class="format-line"><span>sales.xlsx</span><span aria-hidden="true">↔</span><span>sales.ods</span></div>
+          <figcaption>Supported scalar cells can move between both formats. Formula languages are not translated.</figcaption>
+        </figure>
+      </section>
+
+      <section class="details container" aria-labelledby="details-title">
+        <div class="section-intro"><h2 id="details-title">Predictable by design.</h2><p>Interchange without quietly changing the workbook you meant to keep.</p></div>
+        <div class="feature-list">
+          <div class="feature"><h3>Keep the essentials</h3><p>Multiple ordered sheets, sparse cells, strings, finite numbers, and booleans.</p></div>
+          <div class="feature"><h3>Know what is unsupported</h3><p>Styles, charts, merged cells, and other unsupported features fail on import rather than disappear.</p></div>
+          <div class="feature"><h3>Handle formulas honestly</h3><p>Store formula text and a cached value in the same format. Lesath does not calculate or translate formulas.</p></div>
+        </div>
+      </section>
+
+      <section class="install" id="install" aria-labelledby="install-title">
+        <div class="container install-inner">
+          <div><h2 id="install-title">Start with the gem.</h2><p>Requires CRuby 3.2 or newer. The README includes the workbook API and exact format limits.</p></div>
+          <div><pre><code>gem install lesath</code></pre><a class="quiet-link" href="https://github.com/noxdea/lesath#quick-start">Read the quick start <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer"><div class="container footer-inner"><span>Lesath · A Ruby gem by Yudai Takada</span><a href="https://rubygems.org/gems/lesath">RubyGems <span aria-hidden="true">↗</span></a></div></footer>
+  </body>
+</html>

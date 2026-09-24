@@ -33,7 +33,14 @@ jobs:
         run: |
           bundle exec rake
           gem build lesath.gemspec --output lesath.gem
+      - name: Check published version
+        id: gem
+        run: |
+          if gem info lesath --remote --version "${GITHUB_REF_NAME#v}" | grep -q .; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+          fi
       - name: Publish through RubyGems trusted publishing
+        if: steps.gem.outputs.published != 'true'
         uses: rubygems/release-gem@7f9650160c1a4e7989fdc9855807bdbd421d8b6b # v1.4.1
       - name: Create GitHub release
         env:

@@ -22,7 +22,7 @@ module Lesath
           raise InvalidPackage, "ZIP part too large" if entry.size > MAX_PART || total + entry.size > MAX_TOTAL
           raise InvalidPackage, "suspicious ZIP compression" if entry.compressed_size.positive? && entry.size > entry.compressed_size * 1_000
 
-          bytes = entry.get_input_stream.read(MAX_PART + 1)
+          bytes = entry.get_input_stream { |input| input.read(MAX_PART + 1) }
           raise InvalidPackage, "ZIP part too large" if bytes.bytesize > MAX_PART
           total += bytes.bytesize
           raise InvalidPackage, "ZIP package too large" if total > MAX_TOTAL
@@ -47,7 +47,22 @@ module Lesath
           end
         end
         read(file.path) # An output must satisfy the same ZIP limits as an input.
-        File.link(file.path, target)
+        if Gem.win_platform?
+          created = completed = false
+          begin
+            File.open(target, File::WRONLY | File::CREAT | File::EXCL) do |output|
+              created = true
+              IO.copy_stream(file.path, output)
+              output.flush
+              output.fsync
+            end
+            completed = true
+          ensure
+            File.unlink(target) if created && !completed && File.file?(target)
+          end
+        else
+          File.link(file.path, target)
+        end
       end
       path
     rescue Errno::EEXIST
