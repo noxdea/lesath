@@ -22,7 +22,7 @@ module Lesath
           raise InvalidPackage, "ZIP part too large" if entry.size > MAX_PART || total + entry.size > MAX_TOTAL
           raise InvalidPackage, "suspicious ZIP compression" if entry.compressed_size.positive? && entry.size > entry.compressed_size * 1_000
 
-          bytes = entry.get_input_stream.read(MAX_PART + 1)
+          bytes = entry.get_input_stream { |input| input.read(MAX_PART + 1) }
           raise InvalidPackage, "ZIP part too large" if bytes.bytesize > MAX_PART
           total += bytes.bytesize
           raise InvalidPackage, "ZIP package too large" if total > MAX_TOTAL
