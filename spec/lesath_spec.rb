@@ -194,4 +194,18 @@ RSpec.describe Lesath do
       expect(File.exist?(path)).to be(false)
     end
   end
+
+  it "uses exclusive output creation on platforms without reliable hard links" do
+    Dir.mktmpdir do |dir|
+      path = File.join(dir, "book.xlsx")
+      book = Lesath::Workbook.new.add_sheet("S")
+      book.set("S", 1, 1, "safe")
+      allow(Gem).to receive(:win_platform?).and_return(true)
+
+      Lesath.write(book, path)
+      expect(Lesath.read(path).cell("S", 1, 1).value).to eq("safe")
+      expect { Lesath.write(book, path) }.to raise_error(Lesath::Error, /exists/)
+      expect(Lesath.read(path).cell("S", 1, 1).value).to eq("safe")
+    end
+  end
 end
