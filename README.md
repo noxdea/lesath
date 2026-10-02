@@ -7,17 +7,17 @@
 <p align="center">
   <a href="https://rubygems.org/gems/lesath"><img src="https://img.shields.io/gem/v/lesath.svg" alt="Gem version"></a>
   <a href="https://rubygems.org/gems/lesath"><img src="https://img.shields.io/gem/dt/lesath.svg" alt="Gem downloads"></a>
-  <a href="https://github.com/noxdea/lesath/actions/workflows/main.yml"><img src="https://github.com/noxdea/lesath/actions/workflows/main.yml/badge.svg" alt="CI"></a>
-  <img src="https://img.shields.io/badge/CRuby-%3E%3D%203.2-cc342d.svg" alt="CRuby 3.2 or newer">
+  <a href="https://github.com/noxdea/lesath/actions/workflows/main.yml"><img src="https://github.com/noxdea/lesath/actions/workflows/main.yml/badge.svg?branch=main" alt="CI"></a>
+  <a href="lesath.gemspec"><img src="https://img.shields.io/badge/CRuby-%3E%3D%203.2-cc342d.svg" alt="CRuby 3.2 or newer"></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT license"></a>
 </p>
 
 <p align="center">
+  <a href="https://noxdea.github.io/lesath/">Website</a> ·
+  <a href="https://noxdea.github.io/lesath/docs/">User Guide</a> ·
   <a href="#features">Features</a> ·
   <a href="#installation">Installation</a> ·
-  <a href="#quick-start">Quick start</a> ·
-  <a href="#supported-subset-and-limits">Limits</a> ·
-  <a href="#development">Development</a>
+  <a href="#quick-start">Quick start</a>
 </p>
 
 ---
@@ -33,6 +33,7 @@ from Arabic *lasʿa*, “sting.”
 - Read and write XLSX and ODS with multiple ordered sheets and sparse cells.
 - Store strings, finite numbers, booleans, and same-format formula text with a
   cached scalar value.
+- Convert supported scalar workbooks between XLSX and ODS without translating formulas.
 - Reject unsupported package parts, XML content, and spreadsheet features on
   import; refuse to overwrite an existing file on export.
 
@@ -42,6 +43,12 @@ Requires CRuby 3.2 or newer:
 
 ```sh
 gem install lesath
+```
+
+Or add Lesath to your application's Gemfile and run `bundle install`:
+
+```ruby
+gem "lesath"
 ```
 
 ## Quick start
@@ -63,6 +70,8 @@ copy.cell("Sales", 2, 2).value # => 12.5
 Cell coordinates are one-based. `Lesath.read` and `Lesath.write` infer the
 format from `.xlsx` or `.ods`; use `format: :xlsx` or `format: :ods` to select it
 explicitly. `Lesath.write` raises an error if the target already exists.
+Continue with the [User Guide](https://noxdea.github.io/lesath/docs/) for
+reading, editing, iterating over cells, and writing another format.
 
 ## Supported subset and limits
 
@@ -93,6 +102,15 @@ semantics need an explicit adapter and loss policy. Until then, CSV remains
 the broader interchange path. See [ADR 001](docs/adr/001-lossless-subset.md)
 for the exact boundary and source standards.
 
+## Documentation
+
+- [User Guide](https://noxdea.github.io/lesath/docs/)
+- [Workbook API](https://noxdea.github.io/lesath/docs/usage.html)
+- [Formulas and cached values](https://noxdea.github.io/lesath/docs/formulas.html)
+- [Compatibility, limits, and errors](https://noxdea.github.io/lesath/docs/compatibility.html)
+- [Development](https://noxdea.github.io/lesath/docs/development.html)
+- [Changelog](CHANGELOG.md)
+
 ## Development
 
 ```sh
@@ -100,6 +118,10 @@ bundle install
 bundle exec rake spec
 gem build --strict lesath.gemspec
 ```
+
+The website and User Guide use GitHub Pages' built-in Jekyll support. See the
+[development guide](https://noxdea.github.io/lesath/docs/development.html)
+for documentation sources, local previews, and publishing.
 
 ## License
 

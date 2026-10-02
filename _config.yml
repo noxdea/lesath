@@ -1,0 +1,32 @@
+title: Lesath
+description: Strict XLSX and ODS spreadsheet interchange for Ruby
+url: https://noxdea.github.io
+baseurl: /lesath
+markdown: kramdown
+kramdown:
+  input: GFM
+
+guide_navigation:
+  - title: Getting started
+    url: /docs/
+  - title: Workbook API
+    url: /docs/usage.html
+  - title: Formulas and cached values
+    url: /docs/formulas.html
+  - title: Compatibility and limits
+    url: /docs/compatibility.html
+  - title: Development
+    url: /docs/development.html
+
+exclude:
+  - README.md
+  - CHANGELOG.md
+  - Gemfile
+  - Gemfile.lock
+  - Rakefile
+  - lesath.gemspec
+  - lib
+  - spec
+  - docs/adr
+  - tmp
+  - vendor

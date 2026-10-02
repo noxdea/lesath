@@ -10,6 +10,7 @@
 
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--background); color: var(--text); font: 400 1rem/1.6 "Avenir Next", Avenir, "Segoe UI", sans-serif; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 a { color: inherit; text-decoration: none; }
 a:hover { color: var(--accent); }
 a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
@@ -25,10 +26,12 @@ h1, h2, h3 { text-wrap: balance; }
 .brand { font-size: 1.4rem; font-weight: 700; }
 .brand-mark { color: var(--accent); margin-left: .15rem; }
 nav { display: flex; gap: 1.75rem; color: var(--muted); font-size: .93rem; }
+nav a[aria-current] { color: var(--accent); font-weight: 600; }
 
 .hero { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); align-items: center; gap: clamp(2.5rem, 6vw, 6rem); padding-block: clamp(5rem, 10vw, 9rem); }
 h1 { max-width: 11ch; margin: 0; font-size: clamp(3.2rem, 6vw, 5.8rem); font-weight: 600; line-height: 1.04; }
 .hero-copy > p { max-width: 50ch; margin: 2rem 0 0; color: var(--muted); font-size: 1.18rem; }
+.hero-copy > .requirements { margin-top: 1.3rem; font-size: .88rem; }
 .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 1.3rem; margin-top: 2rem; }
 .button { display: inline-block; padding: .8rem 1.2rem; border: 1px solid var(--accent); border-radius: .35rem; background: var(--accent); color: var(--background); font-weight: 700; }
 .button:hover { background: transparent; color: var(--accent); }
@@ -58,8 +61,44 @@ h2 { margin: 0; font-size: clamp(2rem, 3vw, 3rem); font-weight: 600; line-height
 .feature p { color: var(--muted); }
 
 .install { border-top: 1px solid var(--rule); }
-.install-inner { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 8vw, 8rem); padding-block: clamp(4rem, 7vw, 7rem); }
+.install-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2rem, 8vw, 8rem); padding-block: clamp(4rem, 7vw, 7rem); }
 pre { margin: 0 0 1.2rem; padding: 1.3rem 1.5rem; overflow-x: auto; border: 1px solid var(--rule); border-radius: .4rem; background: var(--surface); color: var(--accent); font: 500 .95rem/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+pre code { font: inherit; }
+
+.reading { padding-block: clamp(3.5rem, 7vw, 6rem); }
+.reading-list { display: grid; grid-template-columns: 1fr 1fr; column-gap: 3rem; margin-top: 2rem; }
+.reading-list a { display: grid; gap: .3rem; padding-block: 1.3rem; border-top: 1px solid var(--rule); }
+.reading-list strong { font-size: 1.1rem; }
+.reading-list span { color: var(--muted); }
+
+.guide-shell { display: grid; grid-template-columns: 15rem minmax(0, 1fr); gap: clamp(2rem, 5vw, 5rem); padding-block: 3rem 5rem; }
+.guide-nav { align-self: start; position: sticky; top: 2rem; }
+.guide-nav nav { display: block; }
+.guide-nav h2 { font-size: 1rem; margin-bottom: 1rem; }
+.guide-nav ul { list-style: none; padding: 0; margin: 0; }
+.guide-nav a { display: block; padding: .55rem .75rem; border-left: 2px solid transparent; }
+.guide-nav a[aria-current="page"] { border-color: var(--accent); background: var(--surface); }
+.guide-content { min-width: 0; max-width: 74ch; }
+.guide-content h1 { max-width: none; font-size: clamp(2.2rem, 4vw, 3.5rem); line-height: 1.1; }
+.guide-content .lead { margin-block: 1rem 2rem; color: var(--muted); font-size: 1.15rem; }
+.markdown h2 { margin-block: 2.75rem 1rem; font-size: 1.75rem; scroll-margin-top: 2rem; }
+.markdown h3 { margin-top: 2rem; font-size: 1.2rem; scroll-margin-top: 2rem; }
+.markdown p, .markdown ul, .markdown ol { margin-block: 1rem; }
+.markdown a, .edit-link { color: var(--accent); text-decoration: underline; text-underline-offset: .2em; }
+.markdown a:hover, .edit-link:hover { color: var(--text); }
+.markdown :not(pre) > code { padding: .1rem .25rem; border-radius: .2rem; background: var(--surface); font-size: .9em; overflow-wrap: anywhere; }
+.markdown pre { margin-block: 1.3rem; color: var(--text); }
+.markdown table { display: block; width: 100%; max-width: 100%; margin-block: 1.5rem; overflow-x: auto; border-collapse: collapse; font-size: .92rem; }
+.markdown th, .markdown td { padding: .65rem .8rem; border: 1px solid var(--rule); text-align: left; vertical-align: top; min-width: 9rem; }
+.markdown th { background: var(--surface); font-weight: 600; }
+#markdown-toc { padding: 1rem 1rem 1rem 2.5rem; border-left: 2px solid var(--rule); }
+#markdown-toc ul { margin-block: .25rem; }
+.edit-link { display: inline-block; margin-top: 2rem; font-size: .9rem; }
+.highlight .c, .highlight .c1, .highlight .cm { color: var(--muted); }
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .o { color: var(--accent); }
+.highlight .s, .highlight .s1, .highlight .s2, .highlight .ss { color: #fde68a; }
+.highlight .mi, .highlight .mf { color: #86efac; }
+
 .site-footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: .9rem; }
 .footer-inner { min-height: 5rem; }
 
@@ -68,16 +107,21 @@ pre { margin: 0 0 1.2rem; padding: 1.3rem 1.5rem; overflow-x: auto; border: 1px 
   .hero { padding-bottom: 5rem; }
   .artifact { max-width: 38rem; }
   .details { gap: 2rem; }
+  .guide-shell { grid-template-columns: 1fr; gap: 2rem; padding-top: 2rem; }
+  .guide-nav { position: static; padding-bottom: 1.5rem; border-bottom: 1px solid var(--rule); }
+  .guide-nav ul { display: flex; flex-wrap: wrap; gap: .25rem .5rem; }
 }
 @media (max-width: 580px) {
   .container { width: min(100% - 2rem, 74rem); }
-  .header-inner { min-height: 4.5rem; }
-  nav { gap: 1rem; font-size: .85rem; }
+  .header-inner { min-height: 4.5rem; flex-wrap: wrap; gap: .5rem 1rem; padding-block: 1rem; }
+  nav { flex-wrap: wrap; gap: .5rem 1rem; font-size: .85rem; }
   .hero { padding-top: 4rem; }
   h1 { font-size: clamp(2.7rem, 12vw, 4rem); }
   .hero-copy > p { font-size: 1.05rem; }
   .feature, .install-inner { grid-template-columns: 1fr; gap: .5rem; }
   .feature { padding-block: 1.2rem; }
   .install-inner { gap: 1.5rem; }
+  .reading-list { grid-template-columns: 1fr; }
+  pre { padding: 1rem; font-size: .85rem; }
   .footer-inner { align-items: flex-start; flex-direction: column; justify-content: center; gap: .25rem; padding-block: 1rem; }
 }

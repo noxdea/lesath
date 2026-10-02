@@ -5,7 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#020617">
     <meta name="description" content="Lesath reads and writes a strict, documented subset of XLSX and ODS spreadsheets for Ruby.">
-    <title>Lesath — careful spreadsheet interchange for Ruby</title>
+    <meta property="og:title" content="Lesath — strict spreadsheet interchange for Ruby">
+    <meta property="og:description" content="Read and write XLSX and ODS, preserve supported cells, and reject content outside the documented subset.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://noxdea.github.io/lesath/">
+    <title>Lesath — strict spreadsheet interchange for Ruby</title>
     <link rel="canonical" href="https://noxdea.github.io/lesath/">
     <link rel="stylesheet" href="styles.css">
   </head>
@@ -15,7 +19,9 @@
       <div class="container header-inner">
         <a class="brand" href="./" aria-label="Lesath home">Lesath<span class="brand-mark" aria-hidden="true">/</span></a>
         <nav aria-label="Primary navigation">
-          <a href="https://github.com/noxdea/lesath#readme">Documentation</a>
+          <a href="#features">Features</a>
+          <a href="#quick-start">Quick start</a>
+          <a href="docs/">User guide</a>
           <a href="https://github.com/noxdea/lesath">GitHub</a>
         </nav>
       </div>
@@ -27,9 +33,10 @@
           <h1 id="hero-title">Spreadsheet files, with clear boundaries.</h1>
           <p>Read and write a documented subset of XLSX and ODS in Ruby. Lesath preserves supported cells and rejects features it cannot keep intact.</p>
           <div class="hero-actions">
-            <a class="button" href="#install">Get started</a>
-            <a class="quiet-link" href="https://github.com/noxdea/lesath#supported-subset-and-limits">See the limits <span aria-hidden="true">↗</span></a>
+            <a class="button" href="docs/">Read the user guide</a>
+            <a class="quiet-link" href="docs/compatibility.html">See the limits <span aria-hidden="true">↗</span></a>
           </div>
+          <p class="requirements">CRuby 3.2 or newer. Available on RubyGems.</p>
         </div>
 
         <figure class="artifact">
@@ -48,7 +55,7 @@
         </figure>
       </section>
 
-      <section class="details container" aria-labelledby="details-title">
+      <section id="features" class="details container" aria-labelledby="details-title">
         <div class="section-intro"><h2 id="details-title">Predictable by design.</h2><p>Interchange without quietly changing the workbook you meant to keep.</p></div>
         <div class="feature-list">
           <div class="feature"><h3>Keep the essentials</h3><p>Multiple ordered sheets, sparse cells, strings, finite numbers, and booleans.</p></div>
@@ -57,14 +64,44 @@
         </div>
       </section>
 
-      <section class="install" id="install" aria-labelledby="install-title">
+      <section class="install" id="quick-start" aria-labelledby="install-title">
         <div class="container install-inner">
-          <div><h2 id="install-title">Start with the gem.</h2><p>Requires CRuby 3.2 or newer. The README includes the workbook API and exact format limits.</p></div>
-          <div><pre><code>gem install lesath</code></pre><a class="quiet-link" href="https://github.com/noxdea/lesath#quick-start">Read the quick start <span aria-hidden="true">↗</span></a></div>
+          <div>
+            <h2 id="install-title">Write your first workbook.</h2>
+            <p>Install the gem, create a sheet, and read back its cells. Coordinates start at 1. Choose a new filename each time you export.</p>
+            <pre><code>gem install lesath</code></pre>
+            <a class="quiet-link" href="docs/">Follow the getting started guide <span aria-hidden="true">↗</span></a>
+          </div>
+          <div>
+            <pre><code>require "lesath"
+
+book = Lesath::Workbook.new.add_sheet("Sales")
+book.set("Sales", 1, 1, "Item")
+book.set("Sales", 1, 2, "Amount")
+book.set("Sales", 2, 1, "Tea")
+book.set("Sales", 2, 2, 12.5)
+
+Lesath.write(book, "sales.xlsx")
+copy = Lesath.read("sales.xlsx")
+copy.cell("Sales", 2, 2).value # =&gt; 12.5
+
+Lesath.write(copy, "sales.ods")</code></pre>
+            <p>Supported scalar cells can move between formats. Formula text stays in its original format and is never calculated.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="reading container" aria-labelledby="reading-title">
+        <h2 id="reading-title">Find the detail you need.</h2>
+        <div class="reading-list">
+          <a href="docs/usage.html"><strong>Workbook API</strong><span>Sheets, sparse cells, iteration, and file operations</span></a>
+          <a href="docs/formulas.html"><strong>Formulas and cached values</strong><span>Same-format formulas and explicit cache updates</span></a>
+          <a href="docs/compatibility.html"><strong>Compatibility and limits</strong><span>Supported content, package checks, and error handling</span></a>
+          <a href="docs/development.html"><strong>Development</strong><span>Library checks, documentation sources, and publishing</span></a>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer"><div class="container footer-inner"><span>Lesath · A Ruby gem by Yudai Takada</span><a href="https://rubygems.org/gems/lesath">RubyGems <span aria-hidden="true">↗</span></a></div></footer>
+    <footer class="site-footer"><div class="container footer-inner"><span>Lesath · <a href="https://github.com/noxdea/lesath/blob/main/LICENSE.txt">MIT License</a></span><a href="https://rubygems.org/gems/lesath">RubyGems <span aria-hidden="true">↗</span></a></div></footer>
   </body>
 </html>
